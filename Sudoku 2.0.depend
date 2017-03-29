@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1490691678 source:d:\ltnc\tuan 6\sudoku 2.0\main.cpp
+	"solveSudoku.h"
+	<GL/glu.h>
+	<GL/glut.h>
+	<GL/gl.h>
+
+1490691473 d:\ltnc\tuan 6\sudoku 2.0\solvesudoku.h
+	<iostream>
+	<windows.h>
+	<fstream>
+
+1490762208 source:d:\ltnc\sudoku 2.0\main.cpp
+	<iostream>
+	<windows.h>
+	<fstream>
+	<GL/glut.h>
+
+1490693580 d:\ltnc\sudoku 2.0\solvesudoku.h
+	<iostream>
+	<windows.h>
+	<fstream>
+
