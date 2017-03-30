@@ -4,21 +4,19 @@
 #include <ctime>
 #include <cstdlib>
 
-using namespace std;
-
 const int xMax = 9, xMin = 0, yMax = 9, yMin = 0;
-bool check_solve=false, check_press_number=true, check_demo=true;
+bool checkSolve=false, checkPressNumber=true, checkDemo=true;
 unsigned char s[9][9], keyboardPress;
-int pos_click_x, pos_click_y, pos_press_x, pos_press_y;
+int posClick_x, posClick_y;
 
-void init();
+void Initialize();
 void drawSquare(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3, GLint x4, GLint y4);
 void keyboard(unsigned char key, int x, int y);
 void mouseClick(int button, int state, int x, int y);
-void drawBoard();
+void preDraw();
 void pressNumber();
 void clearBoard();
-void draw();
+void display();
 void printText(int x, int y, char *str);
 void printText2(int x, int y, char *str);
 void printNumber(unsigned char s, GLint x, GLint y);
@@ -32,15 +30,15 @@ int main(int agrc, char ** argv)
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowPosition(200, 100);
     glutInitWindowSize(800, 600);
-    glutCreateWindow("Sudoku using OpenGL in C++");
-    init();
-    glutDisplayFunc(draw);
+    glutCreateWindow("Solve Sudoku using OpenGL in C++");
+    Initialize();
+    glutDisplayFunc(display);
     glutMouseFunc(mouseClick);
     glutKeyboardFunc(keyboard);
     glutMainLoop();
 }
 
-void init()
+void Initialize()
 {
     glClearColor(0, 0, 0, 0);
     glMatrixMode(GL_PROJECTION);
@@ -68,15 +66,13 @@ void mouseClick(int button, int state, int x, int y)
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
     {
 
-        pos_click_x = x;
-        cout << pos_click_x << endl;
-        pos_click_y = 600-y;
-        cout << pos_click_y << endl;
+        posClick_x = x;
+        posClick_y = 600-y;
     }
     glutPostRedisplay();
 }
 
-void drawBoard()
+void preDraw()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(255,255,255);
@@ -128,55 +124,50 @@ void drawBoard()
     glPopAttrib();
 
     printText(645,515,"DEMO");
-    printText2(60,583,"Click on 'Press Number' to solve your board Sudoku or click on 'Demo' to watch demo");
+    printText2(60,583,"Click on \"Press Number\" to solve your board Sudoku or click on \"Demo\" to watch demo");
     printText(610,370,"Press Number");
     printText(642,220,"SOLVE");
     printText(620,70,"Clear Board");
 
+    //Slipt Sudoku Board into 9 parts
     glPushAttrib(GL_CURRENT_BIT);
         glColor3d(255,255,0);
         glLineWidth(10);
 
-        glBegin(GL_LINES);
-            glVertex2i(210, 572);
-            glVertex2i(210, 29);
-        glEnd();
-
-        glColor3d(255,255,0);
-        glLineWidth(10);
-        glBegin(GL_LINES);
-            glVertex2i(390, 572);
-            glVertex2i(390, 29);
-        glEnd();
-
-        glColor3d(255,255,0);
-        glLineWidth(10);
-        glBegin(GL_LINES);
-            glVertex2i(30, 390);
-            glVertex2i(570, 390);
-        glEnd();
-
-        glColor3d(255,255,0);
-        glLineWidth(10);
-        glBegin(GL_LINES);
-            glVertex2i(30, 210);
-            glVertex2i(570, 210);
-        glEnd();
-
-        glColor3d(255,255,0);
-        glLineWidth(10);
         glBegin(GL_LINE_LOOP);
             glVertex2i(30, 570);
             glVertex2i(570, 570);
             glVertex2i(570,30);
             glVertex2i(30,30);
         glEnd();
+
+        glBegin(GL_LINES);
+            glVertex2i(210, 572);
+            glVertex2i(210, 29);
+        glEnd();
+
+        glBegin(GL_LINES);
+            glVertex2i(390, 572);
+            glVertex2i(390, 29);
+        glEnd();
+
+        glBegin(GL_LINES);
+            glVertex2i(30, 390);
+            glVertex2i(570, 390);
+        glEnd();
+
+        glBegin(GL_LINES);
+            glVertex2i(30, 210);
+            glVertex2i(570, 210);
+        glEnd();
+
     glPopAttrib();
 }
 
 void pressNumber()
 {
-    if(check_press_number==true)
+    //set all value of s[9][9] to equal 0 to get input from keyboard and we also can solve it
+    if(checkPressNumber==true)
     {
         for(int i=0; i<xMax; i++)
             for(int j=0; j<yMax; j++)
@@ -186,51 +177,54 @@ void pressNumber()
 
 void clearBoard()
 {
+    //if s[i][j] = 0, it isn't display on the screen, so we set all value to 0
     for(int i=0; i<xMax; i++)
         for(int j=0; j<yMax; j++)
             s[i][j]='0';
 }
 
-void draw()
+void display()
 {
-    drawBoard();
+    preDraw();
     //Click on "Demo"
-    if(pos_click_x>=600&&pos_click_x<=765&&pos_click_y<=570&&pos_click_y>=470)
+    if(posClick_x>=600&&posClick_x<=765&&posClick_y<=570&&posClick_y>=470)
     {
         inputBoard();
-        check_press_number=false;
-        check_solve=true;
+        checkPressNumber=false;
+        checkSolve=true;
+            glColor3b(255,255,0);
+            printText(645,515,"DEMO");
     }
 
     //Click on "Solve"
-    if(pos_click_x>=600&&pos_click_x<=765&&pos_click_y<=280&&pos_click_y>=180&&check_solve==true)
+    if(posClick_x>=600&&posClick_x<=765&&posClick_y<=280&&posClick_y>=180&&checkSolve==true)
     {
         solveBoard(0,0);
-        check_press_number=false;
-        check_demo=false;
+        checkPressNumber=false;
+        checkDemo=false;
     }
 
     //Click on "Press Number"
-    if(pos_click_x>=600&&pos_click_x<=765&&pos_click_y<=430&&pos_click_y>=330)
+    if(posClick_x>=600&&posClick_x<=765&&posClick_y<=430&&posClick_y>=330)
     {
-        check_solve=true;
+        checkSolve=true;
         pressNumber();
-        check_solve=true;
-        check_demo=false;
+        checkSolve=true;
+        checkDemo=false;
     }
 
     //Click on "Clear Board"
-    if(pos_click_x>=600&&pos_click_x<=765&&pos_click_y<=130&&pos_click_y>=30)
+    if(posClick_x>=600&&posClick_x<=765&&posClick_y<=130&&posClick_y>=30)
     {
         clearBoard();
-        check_solve=true;
-        check_press_number=true;
+        checkSolve=true;
+        checkPressNumber=true;
     }
 
-    if(check_press_number==true&&30<=pos_click_x&&570>=pos_click_x&&30<=pos_click_y&&570>=pos_click_y)
+    if(checkPressNumber==true&&30<=posClick_x&&570>=posClick_x&&30<=posClick_y&&570>=posClick_y)
     {
-        int j = 8-(pos_click_x-30)/60;
-        int i = (pos_click_y-30)/60;
+        int j = 8-(posClick_x-30)/60;
+        int i = (posClick_y-30)/60;
         s[i][j]=keyboardPress;
     }
 
@@ -247,8 +241,8 @@ void draw()
                 glPopAttrib();
 
                 keyboardPress='0';
-                pos_click_x=0;
-                pos_click_y=0;
+                posClick_x=0;
+                posClick_y=0;
             }
         }
     }
@@ -299,7 +293,7 @@ void inputBoard()
     {
         case 1:
         {
-            ifstream file ("input1.txt");
+            std::ifstream file ("input1.txt");
             if(file.is_open())
                 while(!file.eof())
                 {
@@ -309,14 +303,14 @@ void inputBoard()
                             file >> s[i][j];
                         }
                 }
-            else cout << "Unable to open file";
+            else std::cout << "Unable to open file";
             file.close();
             break;
         }
 
         case 2:
         {
-            ifstream file ("input2.txt");
+            std::ifstream file ("input2.txt");
             if(file.is_open())
                 while(!file.eof())
                 {
@@ -326,14 +320,14 @@ void inputBoard()
                             file >> s[i][j];
                         }
                 }
-            else cout << "Unable to open file";
+            else std::cout << "Unable to open file";
             file.close();
             break;
         }
 
         case 3:
         {
-            ifstream file ("input3.txt");
+            std::ifstream file ("input3.txt");
             if(file.is_open())
                 while(!file.eof())
                 {
@@ -343,14 +337,14 @@ void inputBoard()
                             file >> s[i][j];
                         }
                 }
-            else cout << "Unable to open file";
+            else std::cout << "Unable to open file";
             file.close();
             break;
         }
 
         case 4:
         {
-            ifstream file ("input4.txt");
+            std::ifstream file ("input4.txt");
             if(file.is_open())
                 while(!file.eof())
                 {
@@ -360,14 +354,14 @@ void inputBoard()
                             file >> s[i][j];
                         }
                 }
-            else cout << "Unable to open file";
+            else std::cout << "Unable to open file";
             file.close();
             break;
         }
 
         case 5:
         {
-            ifstream file ("input5.txt");
+            std::ifstream file ("input5.txt");
             if(file.is_open())
                 while(!file.eof())
                 {
@@ -377,7 +371,7 @@ void inputBoard()
                             file >> s[i][j];
                         }
                 }
-            else cout << "Unable to open file";
+            else std::cout << "Unable to open file";
             file.close();
             break;
         }
@@ -390,7 +384,7 @@ void solveBoard(int x, int y)
     {
         if(x==xMax-1)
         {
-            check_solve = false;
+            checkSolve = false;
             return;
         }
         else solveBoard(x+1,yMin);
@@ -403,7 +397,7 @@ void solveBoard(int x, int y)
             {
                 s[x][y]=check+'0';
                 solveBoard(x,y+1);
-                if(check_solve==true)s[x][y]='0';
+                if(checkSolve==true)s[x][y]='0';
             }
         }
     }
