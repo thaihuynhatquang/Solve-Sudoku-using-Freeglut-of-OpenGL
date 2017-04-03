@@ -1,12 +1,13 @@
+#include <GL/glut.h>
 #include <iostream>
 #include <fstream>
-#include <GL/glut.h>
 #include <ctime>
 #include <cstdlib>
 
+int checkTest=0;
 const int xMax = 9, xMin = 0, yMax = 9, yMin = 0;
-bool checkSolve=false, checkPressNumber=true, checkDemo=true;
-unsigned char s[9][9], keyboardPress;
+bool checkSolve=true, checkPressNumber=true, checkDemo=true;
+unsigned char s[9][9],test_s[9][9], keyboardPress;
 int posClick_x, posClick_y;
 
 void Initialize();
@@ -14,15 +15,16 @@ void drawSquare(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3, GLin
 void keyboard(unsigned char key, int x, int y);
 void mouseClick(int button, int state, int x, int y);
 void preDraw();
-void pressNumber();
+void test();
 void clearBoard();
 void display();
 void printText(int x, int y, char *str);
 void printText2(int x, int y, char *str);
 void printNumber(unsigned char s, GLint x, GLint y);
+void printNumber2(unsigned char s, GLint x, GLint y);
 void inputBoard();
 void solveBoard(int x, int y);
-bool checkBoard(int x, int y, int check);
+bool checkBoard(int x, int y, unsigned char check);
 
 int main(int agrc, char ** argv)
 {
@@ -43,6 +45,13 @@ void Initialize()
     glClearColor(0, 0, 0, 0);
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0, 800, 0,600);
+    for(int i=0; i<xMax; i++)
+    for(int j=0; j<yMax; j++)
+    {
+        s[i][j]='0';
+        test_s[i][j]='0';
+    }
+
 }
 
 void drawSquare(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3, GLint x4, GLint y4)
@@ -58,7 +67,58 @@ void drawSquare(GLint x1, GLint y1, GLint x2, GLint y2, GLint x3, GLint y3, GLin
 
 void keyboard(unsigned char key, int x, int y)
 {
-    keyboardPress=key;
+    switch(key)
+    {
+    case '1':
+        {
+            keyboardPress=key;
+            break;
+        }
+    case '2':
+        {
+            keyboardPress=key;
+            break;
+        }
+    case '3':
+        {
+            keyboardPress=key;
+            break;
+        }
+    case '4':
+        {
+            keyboardPress=key;
+            break;
+        }
+    case '5':
+        {
+            keyboardPress=key;
+            break;
+        }
+    case '6':
+        {
+            keyboardPress=key;
+            break;
+        }
+    case '7':
+        {
+            keyboardPress=key;
+            break;
+        }
+    case '8':
+        {
+            keyboardPress=key;
+            break;
+        }
+    case '9':
+        {
+            keyboardPress=key;
+            break;
+        }
+    default:
+        {
+            break;
+        }
+    }
 }
 
 void mouseClick(int button, int state, int x, int y)
@@ -123,11 +183,17 @@ void preDraw()
 
     glPopAttrib();
 
-    printText(645,515,"DEMO");
-    printText2(60,583,"Click on \"Press Number\" to solve your board Sudoku or click on \"Demo\" to watch demo");
-    printText(610,370,"Press Number");
+    printText(650,515,"LOAD");
+    if(checkTest ==0 )
+        printText2(125,583,"Click on \"Load\" to open Sudoku board or input number from keyboard");
+    else if (checkTest == 1)
+        printText2(225,583,"Congratulations! You did it");
+    else if(checkTest == -1)
+        printText2(225,583,"Try again. That's wrong!!!");
+    else printText2(225,583,"Get number from your keyboard");
+    printText(640,370,"CHECK");
     printText(642,220,"SOLVE");
-    printText(620,70,"Clear Board");
+    printText(640,70,"CLEAR");
 
     //Slipt Sudoku Board into 9 parts
     glPushAttrib(GL_CURRENT_BIT);
@@ -164,52 +230,59 @@ void preDraw()
     glPopAttrib();
 }
 
-void pressNumber()
+void test()
 {
     //set all value of s[9][9] to equal 0 to get input from keyboard and we also can solve it
     if(checkPressNumber==true)
     {
         for(int i=0; i<xMax; i++)
             for(int j=0; j<yMax; j++)
-                s[i][j]='0';
+                if (checkBoard(i,j,s[i][j])==false)
+                {
+                    checkTest = -1;
+                    return;
+                }
     }
+    checkTest =1;
 }
 
 void clearBoard()
 {
+    checkTest = 0;
     //if s[i][j] = 0, it isn't display on the screen, so we set all value to 0
     for(int i=0; i<xMax; i++)
         for(int j=0; j<yMax; j++)
+        {
             s[i][j]='0';
+            test_s[i][j]='0';
+        }
 }
 
 void display()
 {
     preDraw();
-    //Click on "Demo"
+    //Click on "Load"
     if(posClick_x>=600&&posClick_x<=765&&posClick_y<=570&&posClick_y>=470)
     {
         inputBoard();
-        checkPressNumber=false;
+        checkPressNumber=true;
         checkSolve=true;
-            glColor3b(255,255,0);
-            printText(645,515,"DEMO");
+        checkTest=-2;
     }
 
     //Click on "Solve"
-    if(posClick_x>=600&&posClick_x<=765&&posClick_y<=280&&posClick_y>=180&&checkSolve==true)
+    if(posClick_x>=600&&posClick_x<=765&&posClick_y<=280&&posClick_y>=180)
     {
         solveBoard(0,0);
         checkPressNumber=false;
         checkDemo=false;
     }
 
-    //Click on "Press Number"
+    //Click on "Test"
     if(posClick_x>=600&&posClick_x<=765&&posClick_y<=430&&posClick_y>=330)
     {
         checkSolve=true;
-        pressNumber();
-        checkSolve=true;
+        test();
         checkDemo=false;
     }
 
@@ -221,11 +294,15 @@ void display()
         checkPressNumber=true;
     }
 
-    if(checkPressNumber==true&&30<=posClick_x&&570>=posClick_x&&30<=posClick_y&&570>=posClick_y)
+    if(30<=posClick_x&&570>=posClick_x&&30<=posClick_y&&570>=posClick_y)
     {
+        checkTest=-2;
         int j = 8-(posClick_x-30)/60;
         int i = (posClick_y-30)/60;
-        s[i][j]=keyboardPress;
+        if(test_s[i][j]=='0')s[i][j]=keyboardPress;
+        keyboardPress=test_s[i][j];
+        posClick_x=0;
+        posClick_y=0;
     }
 
     GLint x, y;
@@ -236,13 +313,10 @@ void display()
             if(s[y/60][8-x/60]!='0')
             {
                 glPushAttrib(GL_CURRENT_BIT);
-                    glColor3f(255,255,0);
-                    printNumber(s[y/60][8-x/60],x+25, y+25);
+                    if(test_s[y/60][8-x/60]=='0')
+                    printNumber(s[y/60][8-x/60],x+25, y+20);
+                    else printNumber2(s[y/60][8-x/60],x+25, y+20);
                 glPopAttrib();
-
-                keyboardPress='0';
-                posClick_x=0;
-                posClick_y=0;
             }
         }
     }
@@ -285,6 +359,15 @@ void printNumber(unsigned char s, GLint x, GLint y)
     glPopAttrib();
 }
 
+void printNumber2(unsigned char s, GLint x, GLint y)
+{
+    glPushAttrib(GL_CURRENT_BIT);
+        glColor3b(0, 255, 255);
+        glRasterPos2i(x,y);
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s);
+    glPopAttrib();
+}
+
 void inputBoard()
 {
     srand(time(NULL));
@@ -301,6 +384,7 @@ void inputBoard()
                         for(int j=yMax-1; j>=yMin; j--)
                         {
                             file >> s[i][j];
+                            test_s[i][j]=s[i][j];
                         }
                 }
             else std::cout << "Unable to open file";
@@ -318,6 +402,7 @@ void inputBoard()
                         for(int j=yMax-1; j>=yMin; j--)
                         {
                             file >> s[i][j];
+                            test_s[i][j]=s[i][j];
                         }
                 }
             else std::cout << "Unable to open file";
@@ -335,6 +420,7 @@ void inputBoard()
                         for(int j=yMax-1; j>=yMin; j--)
                         {
                             file >> s[i][j];
+                            test_s[i][j]=s[i][j];
                         }
                 }
             else std::cout << "Unable to open file";
@@ -352,6 +438,7 @@ void inputBoard()
                         for(int j=yMax-1; j>=yMin; j--)
                         {
                             file >> s[i][j];
+                            test_s[i][j]=s[i][j];
                         }
                 }
             else std::cout << "Unable to open file";
@@ -369,6 +456,7 @@ void inputBoard()
                         for(int j=yMax-1; j>=yMin; j--)
                         {
                             file >> s[i][j];
+                            test_s[i][j]=s[i][j];
                         }
                 }
             else std::cout << "Unable to open file";
@@ -393,7 +481,7 @@ void solveBoard(int x, int y)
     {
         for(int check = 1; check <= yMax; check++)
         {
-            if(checkBoard(x,y,check)==true)
+            if(checkBoard(x,y,check+'0')==true)
             {
                 s[x][y]=check+'0';
                 solveBoard(x,y+1);
@@ -404,9 +492,8 @@ void solveBoard(int x, int y)
     else solveBoard(x,y+1);
 }
 
-bool checkBoard(int x, int y, int check)
+bool checkBoard(int x, int y, unsigned char c_check)
 {
-    char c_check=check+'0';
     for(int i=0; i<yMax; i++)
     {
         if(s[x][i]==c_check) return false;
