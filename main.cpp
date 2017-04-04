@@ -276,6 +276,13 @@ void display()
         solveBoard(0,0);
         checkPressNumber=false;
         checkDemo=false;
+        for(int i=0; i<xMax; i++)
+            for(int j=0; j<yMax; j++)
+                if (s[i][j]=='0')
+                {
+                    printText2(620,200,"Can't solve. Try again!");
+                    break;
+                }
     }
 
     //Click on "Test"
