@@ -10,8 +10,8 @@
 	<windows.h>
 	<fstream>
 
-1491301028 source:d:\ltnc\sudoku 2.0\main.cpp
-	<GL/glut.h>
+1491302257 source:d:\ltnc\sudoku 2.0\main.cpp
+	<GL/freeglut.h>
 	<iostream>
 	<fstream>
 	<ctime>
@@ -251,4 +251,11 @@
 	<GL/gl.h>
 	<GL/glu.h>
 	<stdlib.h>
+
+1426324528 c:\users\thaih\downloads\compressed\freeglut-mingw-3.0.0-1.mp\freeglut\include\gl\freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1426324528 c:\users\thaih\downloads\compressed\freeglut-mingw-3.0.0-1.mp\freeglut\include\gl\freeglut_ext.h
+	<stdarg.h>
 
