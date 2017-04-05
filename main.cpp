@@ -1,9 +1,11 @@
-#include <GL/freeglut.h>
+#include<windows.h>
+#include <GL/glut.h>
 #include <iostream>
 #include <fstream>
 #include <ctime>
 #include <cstdlib>
 #include <cstring>
+
 int checkTest=0;
 const int xMax = 9, xMin = 0, yMax = 9, yMin = 0;
 bool checkSolve=true, checkPressNumber=true, checkDemo=true;

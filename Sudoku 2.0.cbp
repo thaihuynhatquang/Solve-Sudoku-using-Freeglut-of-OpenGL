@@ -35,11 +35,15 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add directory="C:/Users/thaih/Downloads/Compressed/freeglut-MinGW-3.0.0-1.mp/freeglut/include" />
+			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/include" />
 		</Compiler>
 		<Linker>
-			<Add option="-lOpenGL32 -lglu32 -lfreeglut" />
-			<Add directory="C:/Users/thaih/Downloads/Compressed/freeglut-MinGW-3.0.0-1.mp/freeglut/lib" />
+			<Add library="glut32" />
+			<Add library="opengl32" />
+			<Add library="glu32" />
+			<Add library="winmm" />
+			<Add library="gdi32" />
+			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
 		<Unit filename="main.cpp" />
 		<Extensions>

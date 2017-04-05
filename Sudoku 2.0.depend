@@ -10,8 +10,9 @@
 	<windows.h>
 	<fstream>
 
-1491302257 source:d:\ltnc\sudoku 2.0\main.cpp
-	<GL/freeglut.h>
+1491414322 source:d:\ltnc\sudoku 2.0\main.cpp
+	<windows.h>
+	<GL/glut.h>
 	<iostream>
 	<fstream>
 	<ctime>
@@ -23,7 +24,7 @@
 	<windows.h>
 	<fstream>
 
-902901272 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
+976641772 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
 	<windows.h>
 	<GL/gl.h>
 	<GL/glu.h>
