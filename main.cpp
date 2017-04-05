@@ -31,7 +31,7 @@ bool checkBoard(int x, int y, unsigned char check);
 int main(int agrc, char ** argv)
 {
     glutInit(&agrc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_SINGLE);
     glutInitWindowPosition(200, 100);
     glutInitWindowSize(800, 600);
     glutCreateWindow("Solve Sudoku using OpenGL in C++");
@@ -150,7 +150,7 @@ void preDraw()
     glPushAttrib(GL_CURRENT_BIT);
         glColor3d(255, 255, 0);
 
-        //draw square of "Demo"
+        //draw square of "Load"
         glBegin(GL_LINE_LOOP);
             glVertex2i(765, 570);
             glVertex2i(765, 470);
@@ -158,7 +158,7 @@ void preDraw()
             glVertex2i(600, 570);
         glEnd();
 
-        //draw square of "Press Number"
+        //draw square of "Check"
         glBegin(GL_LINE_LOOP);
             glVertex2i(765, 430);
             glVertex2i(765, 330);
