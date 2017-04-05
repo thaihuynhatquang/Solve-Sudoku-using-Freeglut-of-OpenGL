@@ -335,7 +335,7 @@ void display()
 void printText(int x, int y, char *str)
 {
     glPushAttrib(GL_CURRENT_BIT);
-        glColor3b(229, 236, 234);
+        glColor3f(229, 236, 234);
         glRasterPos2f(x,y);
         int n = (int) strlen(str);
         for (int i = 0; i < n; i++)
@@ -348,7 +348,7 @@ void printText(int x, int y, char *str)
 void printText2(int x, int y, char *str)
 {
     glPushAttrib(GL_CURRENT_BIT);
-        glColor3b(229, 236, 234);
+        glColor3f(229, 236, 234);
         // Draw your text
         glRasterPos2f(x,y);
         int n = (int) strlen(str);
@@ -362,7 +362,7 @@ void printText2(int x, int y, char *str)
 void printNumber(unsigned char s, GLint x, GLint y)
 {
     glPushAttrib(GL_CURRENT_BIT);
-        glColor3b(229, 236, 234);
+        glColor3f(229, 236, 234);
         glRasterPos2i(x,y);
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s);
     glPopAttrib();
@@ -371,7 +371,7 @@ void printNumber(unsigned char s, GLint x, GLint y)
 void printNumber2(unsigned char s, GLint x, GLint y)
 {
     glPushAttrib(GL_CURRENT_BIT);
-        glColor3b(0, 255, 255);
+        glColor3f(0, 255, 255);
         glRasterPos2i(x,y);
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s);
     glPopAttrib();
